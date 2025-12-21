@@ -1,0 +1,30 @@
+hw_timer_t *timer0 = NULL;
+
+const int ledPin = 43;  // LED连接到数字引脚4
+
+void timer0_callback(void)
+{
+  digitalWrite(ledPin, !digitalRead(ledPin));
+}
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, HIGH);
+
+  /* 初始化定时器 */
+  timer0 = timerBegin(0, 80, true);
+
+  /* 注册中断回调函数 */
+  timerAttachInterrupt(timer0, timer0_callback, true);
+
+  /* 设置定时时间和触发方式 */
+  timerAlarmWrite(timer0, 1000000, true);
+
+  /* 启动定时器 */
+  timerAlarmEnable(timer0);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
